@@ -1,0 +1,117 @@
+<div class="register-container">
+  <div class="register-card">
+    <h2>Créer votre compte</h2>
+    
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+      
+      <!-- Prénom -->
+      <div class="form-group">
+        <label for="firstName">Prénom</label>
+        <input 
+          type="text" 
+          id="firstName"
+          name="firstName" 
+          [(ngModel)]="user.firstName" 
+          placeholder="Votre prénom" 
+          required
+          #firstName="ngModel"
+          class="form-control">
+        <div *ngIf="firstName.invalid && firstName.touched" class="error-message">
+          Le prénom est requis
+        </div>
+      </div>
+
+      <!-- Nom -->
+      <div class="form-group">
+        <label for="lastName">Nom</label>
+        <input 
+          type="text" 
+          id="lastName"
+          name="lastName" 
+          [(ngModel)]="user.lastName" 
+          placeholder="Votre nom" 
+          required
+          #lastName="ngModel"
+          class="form-control">
+        <div *ngIf="lastName.invalid && lastName.touched" class="error-message">
+          Le nom est requis
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email"
+          name="email" 
+          [(ngModel)]="user.email" 
+          placeholder="votre@email.com" 
+          required
+          email
+          #email="ngModel"
+          class="form-control">
+        <div *ngIf="email.invalid && email.touched" class="error-message">
+          <span *ngIf="email.errors?.['required']">L'email est requis</span>
+          <span *ngIf="email.errors?.['email']">Format d'email invalide</span>
+        </div>
+      </div>
+
+      <!-- Mot de passe -->
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input 
+          type="password" 
+          id="password"
+          name="password" 
+          [(ngModel)]="user.password" 
+          placeholder="Votre mot de passe" 
+          required
+          minlength="6"
+          #password="ngModel"
+          class="form-control">
+        <div *ngIf="password.invalid && password.touched" class="error-message">
+          <span *ngIf="password.errors?.['required']">Le mot de passe est requis</span>
+          <span *ngIf="password.errors?.['minlength']">
+            Minimum 6 caractères
+          </span>
+        </div>
+      </div>
+
+      <!-- Confirmation mot de passe -->
+      <div class="form-group">
+        <label for="confirmPassword">Confirmer le mot de passe</label>
+        <input 
+          type="password" 
+          id="confirmPassword"
+          name="confirmPassword" 
+          [(ngModel)]="user.confirmPassword" 
+          placeholder="Confirmez votre mot de passe" 
+          required
+          #confirmPassword="ngModel"
+          class="form-control">
+        <div *ngIf="confirmPassword.invalid && confirmPassword.touched" class="error-message">
+          La confirmation est requise
+        </div>
+        <div *ngIf="user.password !== user.confirmPassword && user.confirmPassword" 
+             class="error-message">
+          Les mots de passe ne correspondent pas
+        </div>
+      </div>
+
+      <!-- Bouton d'inscription -->
+      <button 
+        type="submit" 
+        class="btn-primary"
+        [disabled]="registerForm.invalid || user.password !== user.confirmPassword">
+        S'inscrire
+      </button>
+
+    </form>
+
+    <!-- Lien vers login -->
+    <div class="login-link">
+      <p>Déjà un compte ? <a routerLink="/login">Se connecter</a></p>
+    </div>
+  </div>
+</div>
