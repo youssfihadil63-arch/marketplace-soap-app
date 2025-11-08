@@ -106,4 +106,4 @@
       <soap:address location="http://localhost:8080/ws/auth"/>
     </port>
   </service>
-</definitions>
+</definitions>curl http://localhost:8080/health
