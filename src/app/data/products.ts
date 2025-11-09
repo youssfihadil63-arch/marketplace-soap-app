@@ -140,10 +140,22 @@ export const PRODUCTS_DATA: Product[] = [
     reviews: 243,
     features: ["Intel i9", "RTX 4070", "OLED 3.5K"]
   },
+  { 
+    id: 10, 
+    name: "Microsoft Surface Laptop Studio 2", 
+    category: "informatique", 
+    brand: "Microsoft",
+    price: 2699, 
+    description: "Intel Core i7, 32GB RAM, RTX 4060, écran tactile 14.4\"", 
+    image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    rating: 4.6,
+    reviews: 156,
+    features: ["Écran tactile", "Design convertible", "Windows 11"]
+  },
 
   // ⌚ MONTRES CONNECTÉES
   { 
-    id: 10, 
+    id: 11, 
     name: "Apple Watch Series 9", 
     category: "montres", 
     brand: "Apple",
@@ -157,7 +169,7 @@ export const PRODUCTS_DATA: Product[] = [
     features: ["watchOS 10", "ECG", "Double Tap"]
   },
   { 
-    id: 11, 
+    id: 12, 
     name: "Samsung Galaxy Watch6 Classic", 
     category: "montres", 
     brand: "Samsung",
@@ -168,10 +180,22 @@ export const PRODUCTS_DATA: Product[] = [
     reviews: 432,
     features: ["Wear OS", "Bezel rotatif", "BioActive Sensor"]
   },
+  { 
+    id: 13, 
+    name: "Garmin Fenix 7X Pro", 
+    category: "montres", 
+    brand: "Garmin",
+    price: 899, 
+    description: "GPS multi-bandes, autonomie 37 jours, cartes topo", 
+    image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    rating: 4.7,
+    reviews: 298,
+    features: ["GPS multi-bandes", "37 jours autonomie", "Cartes topo"]
+  },
 
   // 🎮 GAMING
   { 
-    id: 12, 
+    id: 14, 
     name: "PlayStation 5", 
     category: "gaming", 
     brand: "Sony",
@@ -185,7 +209,7 @@ export const PRODUCTS_DATA: Product[] = [
     features: ["SSD 825GB", "4K 120fps", "DualSense"]
   },
   { 
-    id: 13, 
+    id: 15, 
     name: "Xbox Series X", 
     category: "gaming", 
     brand: "Microsoft",
@@ -196,10 +220,22 @@ export const PRODUCTS_DATA: Product[] = [
     reviews: 654,
     features: ["12 TFLOPS", "Quick Resume", "Game Pass"]
   },
+  { 
+    id: 16, 
+    name: "Nintendo Switch OLED", 
+    category: "gaming", 
+    brand: "Nintendo",
+    price: 349, 
+    description: "Écran OLED 7\", mode TV/portable/table, 64GB stockage", 
+    image: "https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    rating: 4.6,
+    reviews: 543,
+    features: ["Écran OLED", "Hybride", "Joy-Cons"]
+  },
 
   // 📷 PHOTO
   { 
-    id: 14, 
+    id: 17, 
     name: "Canon EOS R5", 
     category: "photo", 
     brand: "Canon",
@@ -212,7 +248,7 @@ export const PRODUCTS_DATA: Product[] = [
     features: ["45MP", "8K video", "IBIS 8 stops"]
   },
   { 
-    id: 15, 
+    id: 18, 
     name: "Sony A7 IV", 
     category: "photo", 
     brand: "Sony",
@@ -223,10 +259,22 @@ export const PRODUCTS_DATA: Product[] = [
     reviews: 354,
     features: ["33MP", "4K 60p", "Real-time AF"]
   },
+  { 
+    id: 19, 
+    name: "DJI Mavic 3 Pro", 
+    category: "photo", 
+    brand: "DJI",
+    price: 2199, 
+    description: "Drone 3 capteurs, zoom 7x, vidéo 5.1K, 43min autonomie", 
+    image: "https://images.unsplash.com/photo-1477587458883-59a753333c4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    rating: 4.7,
+    reviews: 298,
+    features: ["3 capteurs", "Zoom 7x", "43min autonomie"]
+  },
 
   // 🏠 MAISON CONNECTÉE
   { 
-    id: 16, 
+    id: 20, 
     name: "Google Nest Hub Max", 
     category: "maison", 
     brand: "Google",
@@ -238,7 +286,7 @@ export const PRODUCTS_DATA: Product[] = [
     features: ["Google Assistant", "Camera", "10\" screen"]
   },
   { 
-    id: 17, 
+    id: 21, 
     name: "Philips Hue Starter Kit", 
     category: "maison", 
     brand: "Philips",
@@ -248,6 +296,19 @@ export const PRODUCTS_DATA: Product[] = [
     rating: 4.6,
     reviews: 654,
     features: ["3 bulbs", "Bridge", "16M colors"]
+  },
+  { 
+    id: 22, 
+    name: "Roborock S8 Pro Ultra", 
+    category: "maison", 
+    brand: "Roborock",
+    price: 1299, 
+    description: "Robot aspirateur+laveur, station auto-vidage+nettoyage", 
+    image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    rating: 4.7,
+    reviews: 387,
+    badge: "Intelligent",
+    features: ["Aspiration+lavage", "Station auto", "Navigation LiDAR"]
   }
 ];
 
@@ -266,7 +327,7 @@ export const CATEGORIES = [
 // Marques disponibles
 export const BRANDS = [
   'Apple', 'Samsung', 'Sony', 'Google', 'OnePlus', 'Bose', 
-  'Dell', 'Canon', 'Microsoft', 'Philips'
+  'Dell', 'Canon', 'Microsoft', 'Nintendo', 'DJI', 'Philips', 'Roborock', 'Garmin'
 ];
 
 // Utilitaires pour les produits

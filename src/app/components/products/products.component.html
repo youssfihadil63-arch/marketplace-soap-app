@@ -33,6 +33,28 @@
   </button>
 </div>
 
+<!-- Statistiques -->
+<div class="products-stats" *ngIf="filteredProducts.length > 0">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <span class="stat-value">{{ filteredProducts.length }}</span>
+      <span class="stat-label">Produits trouvés</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">{{ getAveragePrice() | currency:'EUR' }}</span>
+      <span class="stat-label">Prix moyen</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">{{ getTotalStock() }}</span>
+      <span class="stat-label">Stock total</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">{{ getAverageRating() }}</span>
+      <span class="stat-label">Note moyenne</span>
+    </div>
+  </div>
+</div>
+
 <!-- Products Grid -->
 <div class="products-grid" *ngIf="filteredProducts.length > 0; else noProducts">
   <div 
@@ -68,8 +90,11 @@
         <button 
           class="add-to-cart" 
           (click)="onAddToCart($event, product)"
+          [disabled]="isInCart(product.id)"
+          [class.added]="isInCart(product.id)"
           [attr.data-product-id]="product.id">
           <i class="fas fa-shopping-cart"></i>
+          {{ isInCart(product.id) ? '✓ Ajouté' : 'Ajouter' }}
         </button>
       </div>
     </div>

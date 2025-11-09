@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 export interface User {
@@ -23,11 +23,23 @@ export interface LoginResponse {
 })
 export class AuthService {
   private apiUrl = 'http://localhost:3000/api'; // À adapter pour SOAP
-  private isAuthenticated = false;
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.loadUserFromStorage();
+  }
 
-  // Simulation d'inscription (en attendant le backend)
+  private loadUserFromStorage() {
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('currentUser');
+    
+    if (token && user) {
+      this.currentUserSubject.next(JSON.parse(user));
+    }
+  }
+
+  // Simulation d'inscription
   register(user: User): Observable<LoginResponse> {
     // Pour l'instant, simulation réussie
     return of({
@@ -35,7 +47,6 @@ export class AuthService {
       message: 'Inscription réussie!'
     }).pipe(
       tap(() => {
-        // Stocker en localStorage pour la démo
         localStorage.setItem('demo_user', JSON.stringify(user));
       })
     );
@@ -48,11 +59,14 @@ export class AuthService {
     if (demoUser) {
       const user = JSON.parse(demoUser);
       if (user.email === email && user.password === password) {
-        this.isAuthenticated = true;
-        localStorage.setItem('token', 'demo-token-' + Date.now());
+        const token = 'demo-token-' + Date.now();
+        localStorage.setItem('token', token);
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
+        
         return of({
           success: true,
-          token: 'demo-token',
+          token: token,
           user: user
         });
       }
@@ -65,17 +79,22 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return this.isAuthenticated || localStorage.getItem('token') !== null;
-  }
-
-  logout(): void {
-    this.isAuthenticated = false;
-    localStorage.removeItem('token');
-    localStorage.removeItem('demo_user');
+    return localStorage.getItem('token') !== null;
   }
 
   getCurrentUser(): User | null {
-    const user = localStorage.getItem('demo_user');
-    return user ? JSON.parse(user) : null;
+    return this.currentUserSubject.value;
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('demo_user');
+    this.currentUserSubject.next(null);
+  }
+
+  // Vérification token (pour interceptor)
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 }
