@@ -1,0 +1,48 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>Marketplace</title> 
+    <style> 
+        body { font-family: Arial; padding: 20px; } 
+        .product { border: 1px solid #ccc; padding: 15px; margin: 10px; } 
+        input, button { padding: 10px; margin: 5px; } 
+    </style> 
+</head> 
+<body> 
+    <h1>Produits</h1> 
+    <div id="products">Chargement...</div> 
+    <h2>Ajouter</h2> 
+    <input type="text" id="nom" placeholder="Nom"> 
+    <input type="text" id="desc" placeholder="Description"> 
+    <input type="number" id="prix" placeholder="Prix"> 
+    <button onclick="add()">Ajouter</button> 
+    <script> 
+        async function load() { 
+            const res = await fetch("/products"); 
+            const data = await res.json(); 
+            let html = ""; 
+            data.forEach(p =
+                html += "<div class='product'><h3>" + p.nom + "</h3><p>" + p.description + "</p><p>Prix: " + p.prix + "</p></div>"; 
+            }); 
+            document.getElementById("products").innerHTML = html; 
+        } 
+        async function add() { 
+            const produit = { 
+                nom: document.getElementById("nom").value, 
+                description: document.getElementById("desc").value, 
+                prix: document.getElementById("prix").value 
+            }; 
+            await fetch("/products", { 
+                method: "POST", 
+                headers: {"Content-Type": "application/json"}, 
+                body: JSON.stringify(produit) 
+            }); 
+            document.getElementById("nom").value = ""; 
+            document.getElementById("desc").value = ""; 
+            document.getElementById("prix").value = ""; 
+            load(); 
+        } 
+        load(); 
+    </script> 
+</body> 
+</html> 

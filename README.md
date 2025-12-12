@@ -1,34 +1,13 @@
-\# 🛒 Marketplace SOAP Application
+# 🛍️ Marketplace SOAP App
 
+## 📖 Description
 
+Application e-commerce avec frontend Angular et backend SOAP Node.js
 
-\## Développeurs
+## 👥 Équipe
 
-\- \*\*Hadil Youssfi\*\* - youssfihadil63@gmail.com
+* **Backend** : \[Votre nom] - Services SOAP
+* **Frontend** : \[Nom du collègue] - Interface Angular
 
-
-
-\## Architecture
-
-\- \*\*Backend\*\*: Node.js + SOAP
-
-\- \*\*Frontend\*\*: Angular
-
-\- \*\*Database\*\*: MongoDB
-
-
-
-\## Installation
-
-```bash
-
-\# Backend
-
-cd backend \&\& npm install \&\& npm run dev
-
-
-
-\# Frontend  
-
-cd frontend \&\& npm install \&\& ng serve
+## 🏗️ Structure du Projet
 

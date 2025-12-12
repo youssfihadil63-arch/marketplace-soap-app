@@ -8,32 +8,31 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  username = '';
-  password = '';
-  message = '';
-  loading = false;
+  credentials = {
+    email: '',
+    password: ''
+  };
+
+  loginForm: any; // À remplacer par FormGroup si vous utilisez Reactive Forms
 
   constructor(private authService: AuthService) {}
 
-  async onLogin() {
-    this.loading = true;
-    this.message = '';
-    
-    try {
-      const result = await this.authService.login(this.username, this.password);
-      this.message = result.message;
-      if (result.success) {
-        console.log('✅ Connexion réussie!', result);
-        // Redirection vers le dashboard plus tard
-      }
-    } catch (error) {
-      this.message = '❌ Erreur de connexion';
-      console.error('Login error:', error);
-    } finally {
-      this.loading = false;
+  onSubmit() {
+    if (this.loginForm && this.loginForm.invalid) {
+      return;
     }
+
+    this.authService.login(this.credentials.email, this.credentials.password)
+      .subscribe({
+        next: (response: any) => {
+          console.log('Login successful', response);
+        },
+        error: (error: any) => {
+          console.error('Login failed', error);
+        }
+      });
   }
 }

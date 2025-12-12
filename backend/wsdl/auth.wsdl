@@ -1,109 +1,204 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions name="AuthService"
-  targetNamespace="http://localhost:8080/ws/auth"
-  xmlns="http://schemas.xmlsoap.org/wsdl/"
-  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-  xmlns:tns="http://localhost:8080/ws/auth"
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<definitions name="MarketplaceService"
+    targetNamespace="http://marketplace.example.com/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:tns="http://marketplace.example.com/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-  <types>
-    <xsd:schema targetNamespace="http://localhost:8080/ws/auth">
-      <!-- Login Request -->
-      <xsd:element name="LoginRequest">
-        <xsd:complexType>
-          <xsd:sequence>
-            <xsd:element name="username" type="xsd:string"/>
-            <xsd:element name="password" type="xsd:string"/>
-          </xsd:sequence>
-        </xsd:complexType>
-      </xsd:element>
+    <types>
+        <xsd:schema targetNamespace="http://marketplace.example.com/">
+            <!-- Types pour l'authentification -->
+            <xsd:element name="authenticateRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="email" type="xsd:string"/>
+                        <xsd:element name="password" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            
+            <xsd:element name="authenticateResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="userId" type="xsd:string"/>
+                        <xsd:element name="username" type="xsd:string"/>
+                        <xsd:element name="email" type="xsd:string"/>
+                        <xsd:element name="token" type="xsd:string"/>
+                        <xsd:element name="status" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
 
-      <!-- Login Response -->
-      <xsd:element name="LoginResponse">
-        <xsd:complexType>
-          <xsd:sequence>
-            <xsd:element name="success" type="xsd:boolean"/>
-            <xsd:element name="message" type="xsd:string"/>
-            <xsd:element name="token" type="xsd:string" minOccurs="0"/>
-            <xsd:element name="user" type="tns:User" minOccurs="0"/>
-          </xsd:sequence>
-        </xsd:complexType>
-      </xsd:element>
+            <!-- Types pour la recherche produits -->
+            <xsd:element name="searchProductsRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="category" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="keywords" type="xsd:string" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
 
-      <!-- Register Request -->
-      <xsd:element name="RegisterRequest">
-        <xsd:complexType>
-          <xsd:sequence>
-            <xsd:element name="username" type="xsd:string"/>
-            <xsd:element name="password" type="xsd:string"/>
-            <xsd:element name="email" type="xsd:string"/>
-          </xsd:sequence>
-        </xsd:complexType>
-      </xsd:element>
+            <xsd:element name="searchProductsResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="products" type="tns:productArray"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
 
-      <!-- User Type -->
-      <xsd:complexType name="User">
-        <xsd:sequence>
-          <xsd:element name="id" type="xsd:string"/>
-          <xsd:element name="username" type="xsd:string"/>
-          <xsd:element name="email" type="xsd:string"/>
-        </xsd:sequence>
-      </xsd:complexType>
-    </xsd:schema>
-  </types>
+            <xsd:complexType name="productArray">
+                <xsd:sequence>
+                    <xsd:element name="product" type="tns:product" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
 
-  <message name="LoginInput">
-    <part name="parameters" element="tns:LoginRequest"/>
-  </message>
+            <xsd:complexType name="product">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:string"/>
+                    <xsd:element name="name" type="xsd:string"/>
+                    <xsd:element name="price" type="xsd:decimal"/>
+                    <xsd:element name="category" type="xsd:string"/>
+                    <xsd:element name="stock" type="xsd:integer"/>
+                </xsd:sequence>
+            </xsd:complexType>
 
-  <message name="LoginOutput">
-    <part name="parameters" element="tns:LoginResponse"/>
-  </message>
+            <!-- Types pour les commandes -->
+            <xsd:element name="placeOrderRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="userId" type="xsd:string"/>
+                        <xsd:element name="productId" type="xsd:string"/>
+                        <xsd:element name="quantity" type="xsd:integer"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
 
-  <message name="RegisterInput">
-    <part name="parameters" element="tns:RegisterRequest"/>
-  </message>
+            <xsd:element name="placeOrderResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="orderId" type="xsd:string"/>
+                        <xsd:element name="status" type="xsd:string"/>
+                        <xsd:element name="total" type="xsd:decimal"/>
+                        <xsd:element name="message" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
 
-  <message name="RegisterOutput">
-    <part name="parameters" element="tns:LoginResponse"/>
-  </message>
+            <!-- Type pour health check -->
+            <xsd:element name="healthCheckRequest">
+                <xsd:complexType>
+                    <xsd:sequence/>
+                </xsd:complexType>
+            </xsd:element>
 
-  <portType name="AuthPort">
-    <operation name="Login">
-      <input message="tns:LoginInput"/>
-      <output message="tns:LoginOutput"/>
-    </operation>
-    <operation name="Register">
-      <input message="tns:RegisterInput"/>
-      <output message="tns:RegisterOutput"/>
-    </operation>
-  </portType>
+            <xsd:element name="healthCheckResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="status" type="xsd:string"/>
+                        <xsd:element name="service" type="xsd:string"/>
+                        <xsd:element name="timestamp" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </types>
 
-  <binding name="AuthBinding" type="tns:AuthPort">
-    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <operation name="Login">
-      <soap:operation soapAction="http://localhost:8080/ws/auth/Login"/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-      <output>
-        <soap:body use="literal"/>
-      </output>
-    </operation>
-    <operation name="Register">
-      <soap:operation soapAction="http://localhost:8080/ws/auth/Register"/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-      <output>
-        <soap:body use="literal"/>
-      </output>
-    </operation>
-  </binding>
+    <!-- Messages -->
+    <message name="authenticateInput">
+        <part name="parameters" element="tns:authenticateRequest"/>
+    </message>
+    <message name="authenticateOutput">
+        <part name="parameters" element="tns:authenticateResponse"/>
+    </message>
 
-  <service name="AuthService">
-    <port name="AuthPort" binding="tns:AuthBinding">
-      <soap:address location="http://localhost:8080/ws/auth"/>
-    </port>
-  </service>
-</definitions>curl http://localhost:8080/health
+    <message name="searchProductsInput">
+        <part name="parameters" element="tns:searchProductsRequest"/>
+    </message>
+    <message name="searchProductsOutput">
+        <part name="parameters" element="tns:searchProductsResponse"/>
+    </message>
+
+    <message name="placeOrderInput">
+        <part name="parameters" element="tns:placeOrderRequest"/>
+    </message>
+    <message name="placeOrderOutput">
+        <part name="parameters" element="tns:placeOrderResponse"/>
+    </message>
+
+    <message name="healthCheckInput">
+        <part name="parameters" element="tns:healthCheckRequest"/>
+    </message>
+    <message name="healthCheckOutput">
+        <part name="parameters" element="tns:healthCheckResponse"/>
+    </message>
+
+    <!-- Port Type -->
+    <portType name="MarketplaceServicePort">
+        <operation name="authenticate">
+            <input message="tns:authenticateInput"/>
+            <output message="tns:authenticateOutput"/>
+        </operation>
+        <operation name="searchProducts">
+            <input message="tns:searchProductsInput"/>
+            <output message="tns:searchProductsOutput"/>
+        </operation>
+        <operation name="placeOrder">
+            <input message="tns:placeOrderInput"/>
+            <output message="tns:placeOrderOutput"/>
+        </operation>
+        <operation name="healthCheck">
+            <input message="tns:healthCheckInput"/>
+            <output message="tns:healthCheckOutput"/>
+        </operation>
+    </portType>
+
+    <!-- Binding -->
+    <binding name="MarketplaceServiceBinding" type="tns:MarketplaceServicePort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="authenticate">
+            <soap:operation soapAction="http://marketplace.example.com/authenticate"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="searchProducts">
+            <soap:operation soapAction="http://marketplace.example.com/searchProducts"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="placeOrder">
+            <soap:operation soapAction="http://marketplace.example.com/placeOrder"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="healthCheck">
+            <soap:operation soapAction="http://marketplace.example.com/healthCheck"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <!-- Service -->
+    <service name="MarketplaceService">
+        <port name="MarketplaceServicePort" binding="tns:MarketplaceServiceBinding">
+            <soap:address location="http://localhost:8081/ws/auth"/>
+        </port>
+    </service>
+</definitions>

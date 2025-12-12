@@ -1,0 +1,135 @@
+<div class="cart-container">
+  <!-- En-tête -->
+  <div class="cart-header">
+    <div>
+      <h2>🛒 Mon Panier</h2>
+      <p>Gestion de votre panier SOAP Marketplace</p>
+    </div>
+    <button *ngIf="!isCartEmpty" (click)="clearCart()" class="btn-clear">
+      🗑️ Vider le panier
+    </button>
+  </div>
+
+  <!-- Panier vide -->
+  <div *ngIf="isCartEmpty" class="empty-cart">
+    <div class="empty-icon">🛒</div>
+    <h3>Votre panier est vide</h3>
+    <p>Découvrez nos produits et ajoutez-les à votre panier !</p>
+    <button (click)="goToProducts()" class="btn-primary">
+      📦 Voir les produits
+    </button>
+  </div>
+
+  <!-- Panier avec articles -->
+  <div *ngIf="!isCartEmpty" class="cart-content">
+    
+    <!-- Liste des articles -->
+    <div class="cart-items">
+      <div *ngFor="let item of cartItems" class="cart-item">
+        
+        <!-- Image du produit -->
+        <div class="item-image">
+          <img [src]="item.image || 'https://via.placeholder.com/80x80/4361ee/ffffff?text=Produit'" 
+               [alt]="item.name"
+               class="product-image">
+        </div>
+        
+        <!-- Détails du produit -->
+        <div class="item-details">
+          <h4 class="item-name">{{ item.name }}</h4>
+          <p *ngIf="item.description" class="item-description">{{ item.description }}</p>
+          <p class="item-price">{{ item.price | currency:'EUR' }}</p>
+        </div>
+        
+        <!-- Contrôles de quantité -->
+        <div class="quantity-controls">
+          <button (click)="decreaseQuantity(item)" 
+                  class="btn-quantity" 
+                  [disabled]="item.quantity <= 1">−</button>
+          <span class="quantity">{{ item.quantity }}</span>
+          <button (click)="increaseQuantity(item)" class="btn-quantity">+</button>
+        </div>
+        
+        <!-- Total pour l'article -->
+        <div class="item-total">
+          {{ (item.price * item.quantity) | currency:'EUR' }}
+        </div>
+        
+        <!-- Bouton supprimer -->
+        <button (click)="removeItem(item.id)" 
+                class="btn-remove"
+                title="Supprimer du panier">
+          ❌
+        </button>
+      </div>
+    </div>
+
+    <!-- Récapitulatif de commande -->
+    <div class="cart-summary">
+      <div class="summary-card">
+        <h3>Récapitulatif</h3>
+        
+        <!-- Détails du récapitulatif -->
+        <div class="summary-line">
+          <span>Articles ({{ cartItemCount }}):</span>
+          <span>{{ cartTotal | currency:'EUR' }}</span>
+        </div>
+        
+        <div class="summary-line">
+          <span>Frais de livraison:</span>
+          <span class="free-shipping">Gratuits</span>
+        </div>
+        
+        <div *ngIf="discount > 0" class="summary-line discount">
+          <span>Réduction:</span>
+          <span>-{{ discount | currency:'EUR' }}</span>
+        </div>
+        
+        <div class="summary-line total">
+          <span>Total:</span>
+          <span>{{ finalTotal | currency:'EUR' }}</span>
+        </div>
+
+        <!-- Code promotionnel -->
+        <div class="promo-code">
+          <input type="text" 
+                 [(ngModel)]="promoCode" 
+                 placeholder="Code promo" 
+                 class="promo-input"
+                 (keyup.enter)="applyPromoCode()">
+          <button (click)="applyPromoCode()" 
+                  class="btn-promo"
+                  [disabled]="!promoCode">
+            Appliquer
+          </button>
+        </div>
+
+        <!-- Messages promo -->
+        <div *ngIf="promoMessage" 
+             [class]="promoMessageClass"
+             class="promo-message">
+          {{ promoMessage }}
+        </div>
+
+        <!-- Actions -->
+        <div class="cart-actions">
+          <button (click)="proceedToCheckout()" 
+                  class="btn-checkout"
+                  [disabled]="isCartEmpty">
+            🛍️ Passer la commande ({{ finalTotal | currency:'EUR' }})
+          </button>
+          
+          <button (click)="continueShopping()" 
+                  class="btn-continue">
+            ← Continuer mes achats
+          </button>
+          
+          <button (click)="saveCart()" 
+                  class="btn-save">
+            💾 Sauvegarder le panier
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

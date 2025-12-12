@@ -1,0 +1,98 @@
+<!-- Search Section -->
+<div class="search-box" *ngIf="showSearch">
+  <i class="fas fa-search"></i>
+  <input 
+    type="text" 
+    placeholder="Rechercher un produit..." 
+    [value]="state.currentSearch"
+    (input)="onSearchChange($event)">
+</div>
+
+<!-- Active Filters -->
+<div class="active-filters" *ngIf="hasActiveFilters()">
+  <ng-container *ngIf="state.currentFilter !== 'all'">
+    <div class="filter-tag">
+      Catégorie: {{ formatCategory(state.currentFilter) }}
+      <button class="remove" (click)="onRemoveFilter($event, 'filter')">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </ng-container>
+  
+  <ng-container *ngIf="state.currentSearch">
+    <div class="filter-tag">
+      Recherche: "{{ state.currentSearch }}"
+      <button class="remove" (click)="onRemoveFilter($event, 'search')">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </ng-container>
+  
+  <button class="clear-filters" (click)="onClearAllFilters()">
+    Tout effacer
+  </button>
+</div>
+
+<!-- Products Grid -->
+<div class="products-grid" *ngIf="filteredProducts.length > 0; else noProducts">
+  <div 
+    class="product-card" 
+    *ngFor="let product of filteredProducts; let i = index"
+    (click)="onProductClick(product)"
+    [style.animation-delay]="i * 50 + 'ms'">
+    
+    <div class="product-image" [style.background-image]="'url(' + product.image + ')'">
+      <div class="product-badge" *ngIf="product.badge">{{ product.badge }}</div>
+      <div 
+        class="product-badge" 
+        *ngIf="product.stock && product.stock < 10"
+        style="background: #ff6b6b; left: 10px; right: auto;">
+        Stock faible
+      </div>
+    </div>
+    
+    <div class="product-info">
+      <div class="product-category">{{ formatCategory(product.category) }}</div>
+      <div class="product-brand">{{ product.brand }}</div>
+      <h3 class="product-name">{{ product.name }}</h3>
+      <p class="product-description">{{ product.description }}</p>
+      
+      <div class="product-rating">
+        <div class="stars" [innerHTML]="generateStarRating(product.rating)"></div>
+        <span class="rating-value">{{ product.rating }}</span>
+        <span class="reviews">({{ product.reviews }})</span>
+      </div>
+      
+      <div class="product-footer">
+        <div class="product-price">{{ product.price }}€</div>
+        <button 
+          class="add-to-cart" 
+          (click)="onAddToCart($event, product)"
+          [attr.data-product-id]="product.id">
+          <i class="fas fa-shopping-cart"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- No Products State -->
+<ng-template #noProducts>
+  <div class="no-results" *ngIf="state.currentSearch || state.currentFilter !== 'all'; else emptyState">
+    <i class="fas fa-search"></i>
+    <h3>Aucun produit trouvé</h3>
+    <p>Essayez de modifier vos critères de recherche ou de filtre</p>
+    <button class="refresh-button" (click)="onClearAllFilters()">
+      <i class="fas fa-redo"></i> Réinitialiser les filtres
+    </button>
+  </div>
+</ng-template>
+
+<!-- Empty State -->
+<ng-template #emptyState>
+  <div class="products-empty">
+    <i class="fas fa-box-open"></i>
+    <h3>Aucun produit disponible</h3>
+    <p>Les produits apparaîtront ici une fois ajoutés</p>
+  </div>
+</ng-template>

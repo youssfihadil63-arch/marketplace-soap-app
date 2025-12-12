@@ -1,0 +1,88 @@
+<div class="home-container">
+  <!-- En-tête de la page -->
+  <header class="page-header">
+    <div class="header-content">
+      <h1>Boutique Premium</h1>
+      <p>Découvrez notre sélection de produits high-tech et connectés</p>
+      
+      <!-- Statistiques -->
+      <div class="stats-grid">
+        <div class="stat-item">
+          <i class="fas fa-box-open"></i>
+          <div class="stat-info">
+            <span class="stat-number">{{ products.length }}+</span>
+            <span class="stat-label">Produits</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <i class="fas fa-star"></i>
+          <div class="stat-info">
+            <span class="stat-number">{{ getAverageRating() }}/5</span>
+            <span class="stat-label">Note moyenne</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <i class="fas fa-shopping-cart"></i>
+          <div class="stat-info">
+            <span class="stat-number">{{ cartItems.length }}</span>
+            <span class="stat-label">Panier</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Section produits vedettes -->
+  <section class="featured-section" *ngIf="featuredProducts.length > 0">
+    <h2>🔥 Produits Populaires</h2>
+    <div class="featured-grid">
+      <div 
+        class="featured-card" 
+        *ngFor="let product of featuredProducts"
+        (click)="onProductClicked(product)">
+        <div class="featured-image" [style.background-image]="'url(' + product.image + ')'">
+          <div class="featured-badge" *ngIf="product.badge">{{ product.badge }}</div>
+        </div>
+        <div class="featured-info">
+          <h3>{{ product.name }}</h3>
+          <p class="featured-price">{{ product.price }}€</p>
+          <div class="featured-rating">
+            <span class="stars">⭐ {{ product.rating }}</span>
+            <span class="reviews">({{ product.reviews }})</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Composant Products principal -->
+  <section class="products-section">
+    <h2>🛍️ Tous nos Produits</h2>
+    <p class="section-description">
+      Parcourez notre catalogue complet de produits high-tech soigneusement sélectionnés
+    </p>
+    
+    <app-products
+      [products]="products"
+      [showSearch]="true"
+      [showFilters]="true"
+      [showSort]="true"
+      [itemsPerPage]="12"
+      [enablePagination]="false"
+      (productAddedToCart)="onProductAddedToCart($event)"
+      (productClicked)="onProductClicked($event)"
+      (productsRendered)="onProductsRendered($event)">
+    </app-products>
+  </section>
+
+  <!-- Panier flottant -->
+  <div class="floating-cart" *ngIf="cartItems.length > 0">
+    <div class="cart-icon">
+      <i class="fas fa-shopping-cart"></i>
+      <span class="cart-count">{{ cartItems.length }}</span>
+    </div>
+    <div class="cart-total">
+      Total: {{ getCartTotal() }}€
+    </div>
+  </div>
+</div>

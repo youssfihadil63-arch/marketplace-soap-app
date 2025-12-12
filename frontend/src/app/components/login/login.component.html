@@ -1,30 +1,54 @@
-<div class="login-container" style="max-width: 400px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px;">
-  <h2>🔐 Connexion Marketplace</h2>
-  
-  <form (ngSubmit)="onLogin()">
-    <div style="margin-bottom: 15px;">
-      <label style="display: block; margin-bottom: 5px;">Nom d'utilisateur:</label>
-      <input [(ngModel)]="username" name="username" required 
-             style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-    </div>
+<div class="login-container">
+  <div class="login-card">
     
-    <div style="margin-bottom: 15px;">
-      <label style="display: block; margin-bottom: 5px;">Mot de passe:</label>
-      <input [(ngModel)]="password" type="password" name="password" required
-             style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+    <!-- En-tête avec dégradé vibrant -->
+    <div class="login-header">
+      <h4>🚀 Connexion Marketplace</h4>
     </div>
-    
-    <button type="submit" [disabled]="loading" 
-            style="width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
-      {{ loading ? 'Connexion...' : 'Se connecter' }}
-    </button>
-  </form>
 
-  <div *ngIf="message" style="margin-top: 15px; padding: 10px; border-radius: 4px; background: #f8f9fa;">
-    {{ message }}
-  </div>
+    <!-- Corps du formulaire -->
+    <div class="login-body">
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        
+        <!-- Champ Email -->
+        <div class="form-group">
+          <label for="email" class="form-label">📧 Adresse Email</label>
+          <input type="email" class="form-control" id="email"
+                 name="email" [(ngModel)]="credentials.email" 
+                 placeholder="exemple@email.com" 
+                 required email #email="ngModel">
+          <span *ngIf="email.invalid && email.touched" class="error-message">
+            <span *ngIf="email.errors?.['required']">⚠️ L'email est requis</span>
+            <span *ngIf="email.errors?.['email']">⚠️ Format d'email invalide</span>
+          </span>
+        </div>
 
-  <div style="margin-top: 20px; text-align: center;">
-    <p>Pas de compte? <a routerLink="/register">Créer un compte</a></p>
+        <!-- Champ Mot de passe -->
+        <div class="form-group">
+          <label for="password" class="form-label">🔒 Mot de passe</label>
+          <input type="password" class="form-control" id="password"
+                 name="password" [(ngModel)]="credentials.password" 
+                 placeholder="Votre mot de passe sécurisé" 
+                 required #password="ngModel">
+          <span *ngIf="password.invalid && password.touched" class="error-message">
+            ⚠️ Le mot de passe est requis
+          </span>
+        </div>
+
+        <!-- Bouton de connexion moderne -->
+        <button type="submit" class="login-btn"
+                [disabled]="loginForm.invalid">
+          🎯 Se Connecter
+        </button>
+
+      </form>
+
+      <!-- Lien d'inscription stylisé -->
+      <div class="login-footer">
+        <p class="mb-0">Nouveau sur Marketplace ? 
+          <a routerLink="/register" class="login-link">✨ Créer un compte</a>
+        </p>
+      </div>
+    </div>
   </div>
 </div>
