@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb">
+  <!--
+
+Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.3.1 
+Voir <a href="https://javaee.github.io/jaxb-v2/">https://javaee.github.io/jaxb-v2/</a> 
+Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
+Généré le : 2025.11.09 à 07:34:43 PM WAT 
+
+  -->
+  <bindings scd="x-schema::tns" xmlns:tns="http://marketplace.com/soap">
+    <schemaBindings map="false">
+      <package name="com.marketplace.soap"/>
+    </schemaBindings>
+    <bindings scd="tns:getAllProductsRequest">
+      <class ref="com.marketplace.soap.GetAllProductsRequest"/>
+    </bindings>
+    <bindings scd="tns:getAllProductsResponse">
+      <class ref="com.marketplace.soap.GetAllProductsResponse"/>
+    </bindings>
+    <bindings scd="~tns:product">
+      <class ref="com.marketplace.soap.Product"/>
+    </bindings>
+    <bindings scd="tns:getProductByIdRequest">
+      <class ref="com.marketplace.soap.GetProductByIdRequest"/>
+    </bindings>
+    <bindings scd="tns:getProductByIdResponse">
+      <class ref="com.marketplace.soap.GetProductByIdResponse"/>
+    </bindings>
+    <bindings scd="tns:createProductRequest">
+      <class ref="com.marketplace.soap.CreateProductRequest"/>
+    </bindings>
+    <bindings scd="tns:createProductResponse">
+      <class ref="com.marketplace.soap.CreateProductResponse"/>
+    </bindings>
+    <bindings scd="tns:updateProductRequest">
+      <class ref="com.marketplace.soap.UpdateProductRequest"/>
+    </bindings>
+    <bindings scd="tns:updateProductResponse">
+      <class ref="com.marketplace.soap.UpdateProductResponse"/>
+    </bindings>
+    <bindings scd="tns:deleteProductRequest">
+      <class ref="com.marketplace.soap.DeleteProductRequest"/>
+    </bindings>
+    <bindings scd="tns:deleteProductResponse">
+      <class ref="com.marketplace.soap.DeleteProductResponse"/>
+    </bindings>
+    <bindings scd="tns:registerUserRequest">
+      <class ref="com.marketplace.soap.RegisterUserRequest"/>
+    </bindings>
+    <bindings scd="~tns:user">
+      <class ref="com.marketplace.soap.User"/>
+    </bindings>
+    <bindings scd="tns:registerUserResponse">
+      <class ref="com.marketplace.soap.RegisterUserResponse"/>
+    </bindings>
+    <bindings scd="tns:loginUserRequest">
+      <class ref="com.marketplace.soap.LoginUserRequest"/>
+    </bindings>
+    <bindings scd="tns:loginUserResponse">
+      <class ref="com.marketplace.soap.LoginUserResponse"/>
+    </bindings>
+    <bindings scd="tns:getUserByIdRequest">
+      <class ref="com.marketplace.soap.GetUserByIdRequest"/>
+    </bindings>
+    <bindings scd="tns:getUserByIdResponse">
+      <class ref="com.marketplace.soap.GetUserByIdResponse"/>
+    </bindings>
+  </bindings>
+</bindings>
+

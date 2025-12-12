@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           xmlns:tns="http://marketplace.com/soap" 
+           targetNamespace="http://marketplace.com/soap" 
+           elementFormDefault="qualified"> 
+ 
+    <!-- Register User --> 
+    <xs:element name="registerUserRequest"> 
+        <xs:complexType> 
+            <xs:sequence> 
+                <xs:element name="user" type="tns:user"/> 
+            </xs:sequence> 
+        </xs:complexType> 
+    </xs:element> 
+ 
+    <xs:element name="registerUserResponse"> 
+        <xs:complexType> 
+            <xs:sequence> 
+                <xs:element name="user" type="tns:user"/> 
+            </xs:sequence> 
+        </xs:complexType> 
+    </xs:element> 
+ 
+    <!-- Login User --> 
+    <xs:element name="loginUserRequest"> 
+        <xs:complexType> 
+            <xs:sequence> 
+                <xs:element name="username" type="xs:string"/> 
+                <xs:element name="password" type="xs:string"/> 
+            </xs:sequence> 
+        </xs:complexType> 
+    </xs:element> 
+ 
+    <xs:element name="loginUserResponse"> 
+        <xs:complexType> 
+            <xs:sequence> 
+                <xs:element name="user" type="tns:user"/> 
+                <xs:element name="token" type="xs:string"/> 
+            </xs:sequence> 
+        </xs:complexType> 
+    </xs:element> 
+ 
+    <!-- Get User By ID --> 
+    <xs:element name="getUserByIdRequest"> 
+        <xs:complexType> 
+            <xs:sequence> 
+                <xs:element name="id" type="xs:long"/> 
+            </xs:sequence> 
+        </xs:complexType> 
+    </xs:element> 
+ 
+    <xs:element name="getUserByIdResponse"> 
+        <xs:complexType> 
+            <xs:sequence> 
+                <xs:element name="user" type="tns:user"/> 
+            </xs:sequence> 
+        </xs:complexType> 
+    </xs:element> 
+ 
+    <!-- User Type --> 
+    <xs:complexType name="user"> 
+        <xs:sequence> 
+            <xs:element name="id" type="xs:long" minOccurs="0"/> 
+            <xs:element name="username" type="xs:string"/> 
+            <xs:element name="password" type="xs:string"/> 
+            <xs:element name="email" type="xs:string"/> 
+            <xs:element name="firstName" type="xs:string" minOccurs="0"/> 
+            <xs:element name="lastName" type="xs:string" minOccurs="0"/> 
+            <xs:element name="active" type="xs:boolean" minOccurs="0"/> 
+        </xs:sequence> 
+    </xs:complexType> 
+ 
+</xs:schema> 
